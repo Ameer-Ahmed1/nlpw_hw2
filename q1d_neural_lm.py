@@ -82,7 +82,15 @@ def lm_wrapper(in_word_index, out_word_index, num_to_word_embedding, dimensions,
 
     # Construct the data batch and run you backpropogation implementation
     ### YOUR CODE HERE
-    raise NotImplementedError
+    print(num_of_examples)
+    idxs = np.random.choice(num_of_examples, BATCH_SIZE, replace=False)
+
+    for i in range(len(idxs)):
+        data[i] = num_to_word_embedding[in_word_index[idxs[i]]]
+        labels[i] = int_to_one_hot(out_word_index[idxs[i]], output_dim)
+
+    cost, grad = forward_backward_prop(data, labels, params, dimensions)
+    
     ### END YOUR CODE
 
     cost /= BATCH_SIZE
@@ -101,7 +109,14 @@ def eval_neural_lm(eval_data_path):
 
     perplexity = 0
     ### YOUR CODE HERE
-    raise NotImplementedError
+    total_log_prob = 0
+    for in_index, out_index in zip(in_word_index, out_word_index):
+        data = num_to_word_embedding[in_index]
+        curr_label = out_index
+        probs = forward(data, curr_label, params, dimensions)
+        total_log_prob += np.log2(probs)
+
+    perplexity = np.power(2, - (total_log_prob / num_of_examples))
     ### END YOUR CODE
 
     return perplexity
