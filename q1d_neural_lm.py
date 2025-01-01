@@ -82,7 +82,6 @@ def lm_wrapper(in_word_index, out_word_index, num_to_word_embedding, dimensions,
 
     # Construct the data batch and run you backpropogation implementation
     ### YOUR CODE HERE
-    print(num_of_examples)
     idxs = np.random.choice(num_of_examples, BATCH_SIZE, replace=False)
 
     for i in range(len(idxs)):
